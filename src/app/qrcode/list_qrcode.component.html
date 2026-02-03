@@ -1,0 +1,28 @@
+<div class="listQrcode-container" style="max-width: 350px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
+  <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Consultar QR Code</h2>
+
+  <div *ngIf="error" style="margin-bottom: 1rem; color: #d32f2f; background: #ffeaea; border-radius: 6px; padding: 0.75rem; text-align: center;">
+    {{ error }}
+  </div>
+
+  <form (ngSubmit)="onListQrcode()">
+
+    <div style="margin-bottom: 1rem;">
+      <label for="dataInicial" style="display: block; margin-bottom: 0.25rem; color: #555;">Data Inicial</label>
+      <input id="dataInicial" name="dataInicial" type="date" [(ngModel)]="dataInicial" class="form-control" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" required />
+    </div>
+
+    <div style="margin-bottom: 1.5rem;">
+      <label for="dataFinal" style="display: block; margin-bottom: 0.25rem; color: #555;">Data Final</label>
+      <input id="dataFinal" name="dataFinal" type="date" [(ngModel)]="dataFinal" class="form-control" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" required />
+    </div>
+
+    <button type="submit" [disabled]="loading" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span *ngIf="!loading">Consultar</span>
+      <span *ngIf="loading">Consultando...</span>
+    </button>
+
+  </form>
+
+</div>

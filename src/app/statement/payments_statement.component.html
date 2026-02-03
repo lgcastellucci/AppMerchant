@@ -1,0 +1,72 @@
+<div class="payments_statement-container" style="max-width: 350px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
+  <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Consultar Pagamentos</h2>
+
+  <div *ngIf="error" style="margin-bottom: 1rem; color: #d32f2f; background: #ffeaea; border-radius: 6px; padding: 0.75rem; text-align: center;">
+    {{ error }}
+  </div>
+
+  <form (ngSubmit)="onListPayments()">
+
+    <div style="margin-bottom: 1rem;">
+      <label for="dataInicial" style="display: block; margin-bottom: 0.25rem; color: #555;">Data Inicial</label>
+      <input id="dataInicial" name="dataInicial" type="date" [(ngModel)]="dataInicial" class="form-control" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" required />
+    </div>
+
+    <div style="margin-bottom: 1.5rem;">
+      <label for="dataFinal" style="display: block; margin-bottom: 0.25rem; color: #555;">Data Final</label>
+      <input id="dataFinal" name="dataFinal" type="date" [(ngModel)]="dataFinal" class="form-control" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" required />
+    </div>
+
+    <button type="submit" [disabled]="loading" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span *ngIf="!loading">Consultar</span>
+      <span *ngIf="loading">Consultando...</span>
+    </button>
+
+  </form>
+
+</div>
+
+
+<div *ngIf="payments.length > 0" style="width: 100%; margin-top: 2rem;">
+  <h3 style="text-align: center; color: #444;">Pagamentos Encontrados</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.95rem;">
+
+    <thead>
+      <tr style="background: #f5f5fa;">
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left;">Produto</th>
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left;">Vencimento</th>
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left;">Pagamento</th>
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: right;">Créditos</th>
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: right;">Débitos</th>
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: right;">Pagamentos</th>
+        <th style="padding: 0.5rem; border-bottom: 1px solid #eee; text-align: right;">Líquido</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of payments">
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0;">{{ t.product }}</td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0;">{{ t.dueDate }}</td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0;">{{ t.paymentDate }}</td>        
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0; text-align: right;"><span style="color: #388e3c;">{{ t.credits | number:'1.2-2':'pt-BR' }}</span></td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0; text-align: right;"><span style="color: #d32f2f;">{{ (t.debits | number:'1.2-2':'pt-BR' ) }}</span></td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0; text-align: right;"><span style="color: #388e3c;">{{ (t.payments | number:'1.2-2':'pt-BR' ) }}</span></td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #f0f0f0; text-align: right;"><span style="color: #388e3c;">{{ (t.balance | number:'1.2-2':'pt-BR' ) }}</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginação -->
+  <div style="display: flex; justify-content: center; align-items: center; margin-top: 1.5rem;">
+    <button (click)="onPreviousPage()" [disabled]="pageNumber === 1 || loading"
+            style="padding: 0.5rem 1.5rem; margin-right: 1rem; border-radius: 6px; border: none; background: #eee; color: #333; cursor: pointer;">
+      Anterior
+    </button>
+    <span style="font-weight: 500; color: #555;">Página {{ pageNumber }}</span>
+    <button (click)="onNextPage()" [disabled]="!hasNextPage || loading"
+            style="padding: 0.5rem 1.5rem; margin-left: 1rem; border-radius: 6px; border: none; background: #eee; color: #333; cursor: pointer;">
+      Próximo
+    </button>
+  </div>
+
+</div>

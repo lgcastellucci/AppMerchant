@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="AppMerchant.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
