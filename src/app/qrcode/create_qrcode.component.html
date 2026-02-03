@@ -1,5 +1,7 @@
 <app-header></app-header>
 
+<app-loading></app-loading>
+
 <div class="createQrcode-container" style="max-width: 350px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
   <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Criar QR Code</h2>
 
@@ -34,10 +36,8 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="loading" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      <span *ngIf="!loading">Criar</span>
-      <span *ngIf="loading">Criando...</span>
+    <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+      <span>Criar</span>
     </button>
 
     <!-- Div para mostrar a string do QR Code -->

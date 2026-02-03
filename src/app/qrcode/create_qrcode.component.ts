@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'app-create_qrcode',
@@ -13,10 +13,9 @@ export class CreateQrcodeComponent {
   valorFixo: string = '';
   parcelas: string = '';
   error: string = '';
-  loading: boolean = false;
   qrcodeString: string = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
   onValorFixoInput(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -38,6 +37,8 @@ export class CreateQrcodeComponent {
   }
 
   onCreateQrcode() {
+    this.loadingService.show();// Ativa o loading
+
     if (this.valorFixo.toString().replace(".", "").replace(",", "") == '') {
       this.valorFixo = '0';
     }
@@ -45,17 +46,16 @@ export class CreateQrcodeComponent {
       this.parcelas = '0';
     }
 
-
-    this.loading = true; // Ativa o loading
     const token = localStorage.getItem('token');
     const merchantId = localStorage.getItem('merchantId');
+    const terminalId = localStorage.getItem('terminalId');
     this.qrcodeString = '';
     this.error = '';
 
     const payload = {
       reference_id: "",
       merchant_id: merchantId,
-      terminal_id: "",
+      terminal_id: terminalId,
       payment: {
         amount: this.valorFixo.toString().replace(".", "").replace(",", ""), //deve ser string no formato "100"
         installments: this.parcelas.toString(), //deve ser string no formato "100"
@@ -84,21 +84,23 @@ export class CreateQrcodeComponent {
             var qrcode = response.qrcode;
             var status = response.status;
 
-            //Mostrar no front o qrcode
-            this.loading = false; // Desativa o loading
             this.qrcodeString = qrcode;
 
+            this.loadingService.hide(); // Para desativar o loading
           } else {
-            this.loading = false; // Desativa o loading
             this.error = 'QrCode não criado.';
+
             if (response && response.response_message != "") {
               this.error = response.response_message;
+
+              this.loadingService.hide(); // Para desativar o loading
             }
           }
         },
         error: () => {
-          this.loading = false; // Desativa o loading
           this.error = 'Erro ao criar qrcode.';
+
+          this.loadingService.hide(); // Para desativar o loading
         }
       });
   }

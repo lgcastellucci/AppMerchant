@@ -1,9 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="loading" class="loading-overlay">
-  <div class="spinner"></div>
-  <span>Carregando...</span>
-</div>
+<app-loading></app-loading>
 
 <div class="transactions_statement-container" style="max-width: 350px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
   <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Consultar Transações</h2>
@@ -25,7 +22,7 @@
     </div>
 
     <div style="margin-top: 1.5rem;">
-      <button type="submit" [disabled]="loading" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+      <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
         <span>Consultar</span>
       </button>
     </div>
@@ -57,9 +54,9 @@
 
   <!-- Paginação -->
   <div style="display: flex; justify-content: center; align-items: center; margin-top: 1.5rem; margin-bottom: 1.5rem;">
-    <button (click)="onPreviousPage()" [disabled]="pageNumber === 1 || loading" class="button-navigation">Anterior</button>
+    <button (click)="onPreviousPage()" [disabled]="pageNumber === 1" class="button-navigation">Anterior</button>
     <span style="margin-right: 1rem; margin-left: 1rem; font-weight: 500; color: #555; ">Página {{ pageNumber }}</span>
-    <button (click)="onNextPage()" [disabled]="!hasNextPage || loading" class="button-navigation">Próximo</button>
+    <button (click)="onNextPage()" [disabled]="!hasNextPage" class="button-navigation">Próximo</button>
   </div>
 
 </div>

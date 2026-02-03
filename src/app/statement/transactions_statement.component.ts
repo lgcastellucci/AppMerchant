@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'app-transactions_statement',
@@ -13,12 +13,11 @@ export class TransactionsStatementComponent {
   dataInicial: string = '';
   dataFinal: string = '';
   error: string = '';
-  loading: boolean = false;
   transactions: any[] = [];
   pageNumber: number = 1;
   pageSize: number = 10;
   hasNextPage: boolean = false;
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
   private formatDateToDDMMYYYY(dateStr: string): string {
     if (!dateStr) return '';
@@ -52,11 +51,11 @@ export class TransactionsStatementComponent {
   }
 
   onListTransactions(page?: number) {
+    this.loadingService.show();// Ativa o loading
 
     if (page)
       this.pageNumber = page;
 
-    this.loading = true; // Ativa o loading
     const token = localStorage.getItem('token');
     const merchantId = localStorage.getItem('merchantId');
     this.error = '';
@@ -76,8 +75,6 @@ export class TransactionsStatementComponent {
       .subscribe({
         next: (response) => {
           if (response && response.response_code == "00") {
-            this.loading = false; // Desativa o loading
-
             // Mapeia os dados recebidos para o DTO formatado
             this.transactions = (response.transactions || []).map((t: any) => ({
               date: t.date,
@@ -90,22 +87,27 @@ export class TransactionsStatementComponent {
 
             // Verifica se há próxima página
             this.hasNextPage = (response.transactions || []).length === this.pageSize;
+
+            this.loadingService.hide(); // Para desativar o loading
           } else {
-            this.loading = false; // Desativa o loading
             this.error = 'Erro ao consultar.';
             this.transactions = [];
 
             if (response && response.response_message != "") {
               this.error = response.response_message;
             }
+
+            this.loadingService.hide(); // Para desativar o loading
           }
         },
         error: () => {
-          this.loading = false; // Desativa o loading
           this.error = 'Erro ao consultar.';
           this.transactions = [];
+
+          this.loadingService.hide(); // Para desativar o loading
         }
       });
+
   }
 
   onPreviousPage() {

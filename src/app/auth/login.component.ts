@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,11 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   error: string = '';
-  loading: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private loadingService: LoadingService) { }
 
   onLogin() {
-    this.loading = true; // Ativa o loading
+    this.loadingService.show();// Ativa o loading
 
     const payload = {
       integrator_key: AppConstants.ChaveIntegrador,
@@ -32,21 +32,29 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           if (response && response.token) {
+
+            const terminalId = 'AppEstab' + Math.floor(Math.random() * 1000000).toString().padStart(8, '0');
+
             localStorage.setItem('token', response.token);
             localStorage.setItem('merchantId', this.merchantId);
+            localStorage.setItem('terminalId', terminalId);
+
+            this.loadingService.hide(); // Para desativar o loading
             this.router.navigate(['/menu']);
           } else {
-            this.loading = false; // Desativa o loading
             this.error = 'Token não recebido.';
 
             if (response && response.response_message != "") {
               this.error = response.response_message;
+
+              this.loadingService.hide(); // Para desativar o loading
             }
           }
         },
         error: () => {
-          this.loading = false; // Desativa o loading
           this.error = 'Usuário ou senha inválidos.';
+
+          this.loadingService.hide(); // Para desativar o loading
         }
       });
   }
