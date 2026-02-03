@@ -8,6 +8,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
+import { HeaderComponent } from './header/header.component'; 
 import { MenuComponent } from './options/menu.component';
 import { CreateQrcodeComponent } from './qrcode/create_qrcode.component';
 import { ListQrcodeComponent } from './qrcode/list_qrcode.component';
@@ -20,6 +21,7 @@ registerLocaleData(localePt, 'pt-BR');
   declarations: [
     AppComponent,
     LoginComponent,
+    HeaderComponent,
     MenuComponent,
     CreateQrcodeComponent,
     ListQrcodeComponent,

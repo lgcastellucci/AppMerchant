@@ -6,7 +6,7 @@ import { AppConstants } from '../app.constants';
 @Component({
   selector: 'app-transactions_statement',
   templateUrl: './transactions_statement.component.html',
-  styles: ``
+  styleUrl: './transactions_statement.component.css'
 })
 
 export class TransactionsStatementComponent {
@@ -31,15 +31,35 @@ export class TransactionsStatementComponent {
     return amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
+  ngOnInit(): void {
+    const hoje = new Date();
+
+    if (this.dataInicial == '') {
+      // Formata para YYYY-MM-DD
+      const yyyy = hoje.getFullYear();
+      const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+      const dd = String(hoje.getDate()).padStart(2, '0');
+      this.dataInicial = `${yyyy}-${mm}-${dd}`;
+    }
+    if (this.dataFinal == '') {
+      // Formata para YYYY-MM-DD
+      const yyyy = hoje.getFullYear();
+      const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+      const dd = String(hoje.getDate()).padStart(2, '0');
+      this.dataFinal = `${yyyy}-${mm}-${dd}`;
+    }
+
+  }
+
   onListTransactions(page?: number) {
+
+    if (page)
+      this.pageNumber = page;
 
     this.loading = true; // Ativa o loading
     const token = localStorage.getItem('token');
     const merchantId = localStorage.getItem('merchantId');
     this.error = '';
-    this.transactions = [];
-
-    if (page) this.pageNumber = page;
 
     const payload = {
       merchant_id: merchantId,
@@ -73,6 +93,8 @@ export class TransactionsStatementComponent {
           } else {
             this.loading = false; // Desativa o loading
             this.error = 'Erro ao consultar.';
+            this.transactions = [];
+
             if (response && response.response_message != "") {
               this.error = response.response_message;
             }
@@ -81,6 +103,7 @@ export class TransactionsStatementComponent {
         error: () => {
           this.loading = false; // Desativa o loading
           this.error = 'Erro ao consultar.';
+          this.transactions = [];
         }
       });
   }

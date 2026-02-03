@@ -31,6 +31,27 @@ export class PaymentsStatementComponent {
     return amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
+  ngOnInit(): void {
+    const hoje = new Date();
+
+    if (this.dataInicial == '') {
+      const dtInicial = new Date(hoje.getFullYear(), hoje.getMonth() - 1, hoje.getDate() + 1);
+      // Formata para YYYY-MM-DD
+      const yyyy = dtInicial.getFullYear();
+      const mm = String(dtInicial.getMonth() + 1).padStart(2, '0');
+      const dd = String(dtInicial.getDate()).padStart(2, '0');
+      this.dataInicial = `${yyyy}-${mm}-${dd}`;
+    }
+    if (this.dataFinal == '') {
+      // Formata para YYYY-MM-DD
+      const yyyy = hoje.getFullYear();
+      const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+      const dd = String(hoje.getDate()).padStart(2, '0');
+      this.dataFinal = `${yyyy}-${mm}-${dd}`;
+    }
+
+  }
+
   onListPayments(page?: number) {
 
     this.loading = true; // Ativa o loading
