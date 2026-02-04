@@ -1,0 +1,118 @@
+<app-header></app-header>
+
+<app-loading></app-loading>
+
+<div class="createSale-container" style="max-width: 350px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
+  <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Efetuar uma venda</h2>
+
+  <div *ngIf="error" style="margin-bottom: 1rem; color: #d32f2f; background: #ffeaea; border-radius: 6px; padding: 0.75rem; text-align: center;">
+    {{ error }}
+  </div>
+
+  <form (ngSubmit)="onCreateSale()">
+
+    <div style="margin-bottom: 1.25rem;">
+      <label for="numeroCPF" style="display: block; margin-bottom: 0.5rem; color: #555;">Número do CPF</label>
+      <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+        <span style="margin-right: 0.5rem; color: #888;">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">&#128179;</text>
+          </svg>
+        </span>
+        <input id="numeroCPF" name="numeroCPF" type="text" maxlength="11" minlength="11" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="numeroCPF" required placeholder="Digite os 11 dígitos" style="border: none; background: transparent; outline: none; width: 100%;" />
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1.25rem;">
+      <label for="nomePagador" style="display: block; margin-bottom: 0.5rem; color: #555;">Nome do pagador</label>
+      <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+        <span style="margin-right: 0.5rem; color: #888;">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">ABC</text>
+          </svg>
+        </span>
+        <input id="nomePagador" name="nomePagador" type="text" maxlength="40" [(ngModel)]="nomePagador" required placeholder="Digite o nome do pagador" style="border: none; background: transparent; outline: none; width: 100%;" />
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1.25rem;">
+      <label for="numeroCartao" style="display: block; margin-bottom: 0.5rem; color: #555;">Número do cartão</label>
+      <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+        <span style="margin-right: 0.5rem; color: #888;">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">&#128179;</text>
+          </svg>
+        </span>
+        <input id="numeroCartao" name="numeroCartao" type="text" maxlength="16" minlength="16" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="numeroCartao" required placeholder="Digite os 16 dígitos" style="border: none; background: transparent; outline: none; width: 100%;" />
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
+      <div style="flex: 1;">
+        <label for="validade" style="display: block; margin-bottom: 0.5rem; color: #555;">Validade</label>
+        <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+          <span style="margin-right: 0.5rem; color: #888;">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+              <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">MM/AA</text>
+            </svg>
+          </span>
+          <input id="validade" name="validade" type="text" maxlength="5" pattern="(0[1-9]|1[0-2])\/\d{2}" [(ngModel)]="validade" required placeholder="MM/AA" style="border: none; background: transparent; outline: none; width: 100%;" />
+        </div>
+      </div>
+      <div style="flex: 1;">
+        <label for="cvv" style="display: block; margin-bottom: 0.5rem; color: #555;">CVV</label>
+        <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+          <span style="margin-right: 0.5rem; color: #888;">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+              <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">CVV</text>
+            </svg>
+          </span>
+          <input id="cvv" name="cvv" type="text" maxlength="4" minlength="3" pattern="[0-9]{3,4}" inputmode="numeric" [(ngModel)]="cvv" required placeholder="CVV" style="border: none; background: transparent; outline: none; width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1.25rem;">
+      <label for="valorFixo" style="display: block; margin-bottom: 0.5rem; color: #555;">Valor</label>
+      <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+        <span style="margin-right: 0.5rem; color: #888;">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">R$</text>
+          </svg>
+        </span>
+        <input id="valor" name="valor" type="number" min="0.01" step="0.01" [(ngModel)]="valor" required placeholder="Digite o valor" (input)="onValorInput($event)" style="border: none; background: transparent; outline: none; width: 100%;" />
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1.5rem;">
+      <label for="parcelas" style="display: block; margin-bottom: 0.5rem; color: #555;">Parcelas</label>
+      <div style="display: flex; align-items: center; background: #f5f5f5; border-radius: 6px; padding: 0.5rem;">
+        <span style="margin-right: 0.5rem; color: #888;">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="4" fill="#e0e0e0" />
+            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">#</text>
+          </svg>
+        </span>
+        <input id="parcelas" name="parcelas" type="number" min="0" step="1" [(ngModel)]="parcelas" required placeholder="Digite o número de parcelas" style="border: none; background: transparent; outline: none; width: 100%;" />
+      </div>
+    </div>
+
+    <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+      <span>Efetuar</span>
+    </button>
+
+    <!-- Div para mostrar a string do QR Code -->
+    <div *ngIf="authorization" style="margin-top: 2rem; word-break: break-all; background: #f9f9f9; padding: 1rem; border-radius: 6px;">
+      <strong>String do QR Code:</strong>
+      <div>{{ authorization }}</div>
+    </div>
+
+  </form>
+
+</div>

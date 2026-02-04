@@ -15,6 +15,7 @@ import { CreateQrcodeComponent } from './qrcode/create_qrcode.component';
 import { ListQrcodeComponent } from './qrcode/list_qrcode.component';
 import { TransactionsStatementComponent } from './statement/transactions_statement.component';
 import { PaymentsStatementComponent } from './statement/payments_statement.component';
+import { CreateSaleComponent } from './sale/create_sale.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -28,7 +29,8 @@ registerLocaleData(localePt, 'pt-BR');
     CreateQrcodeComponent,
     ListQrcodeComponent,
     TransactionsStatementComponent,
-    PaymentsStatementComponent
+    PaymentsStatementComponent,
+    CreateSaleComponent
   ],
   imports: [
     BrowserModule,
