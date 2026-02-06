@@ -18,6 +18,8 @@ export class CreateSaleComponent {
   valor: string = '';
   parcelas: string = '';
   error: string = '';
+  responseCode: string = '';
+  responseMessage: string = '';
   authorization: string = '';
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
@@ -54,6 +56,8 @@ export class CreateSaleComponent {
     const token = localStorage.getItem('token');
     const merchantId = localStorage.getItem('merchantId');
     this.error = '';
+    this.authorization = '';
+    this.responseMessage = '';
 
     const payload = {
       reference_id: "",
@@ -82,6 +86,18 @@ export class CreateSaleComponent {
       .subscribe({
         next: (response) => {
           if (response && response.response_code == "00") {
+            var response_code = response.response_code;
+            var response_message = response.response_message;
+            var reference_id = response.reference_id;
+            var merchant_id = response.merchant_id;
+            var amount = response.amount;
+            var installments = response.installments;
+            var authorization = response.authorization;
+            var date = response.date;
+
+            this.responseCode = response_code;
+            this.responseMessage = response_message;
+            this.authorization = authorization;
 
             this.loadingService.hide(); // Para desativar o loading
           } else {

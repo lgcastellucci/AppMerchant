@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'app-list_qrcode',
@@ -13,14 +14,13 @@ export class ListQrcodeComponent {
   dataInicial: string = '';
   dataFinal: string = '';
   error: string = '';
-  loading: boolean = false;
   qrcodeString: string = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private loadingService: LoadingService) { }
 
   onListQrcode() {
+    this.loadingService.show();// Ativa o loading
 
-    this.loading = true; // Ativa o loading
     const token = localStorage.getItem('token');
     const merchantId = localStorage.getItem('merchantId');
     this.error = '';
@@ -39,20 +39,20 @@ export class ListQrcodeComponent {
         next: (response) => {
           if (response && response.response_code == "00") {
 
-            //Mostrar no front o qrcode
-            this.loading = false; // Desativa o loading
-
+            this.loadingService.hide(); // Para desativar o loading
           } else {
-            this.loading = false; // Desativa o loading
             this.error = 'Erro ao consultar.';
+
             if (response && response.response_message != "") {
               this.error = response.response_message;
+
+              this.loadingService.hide(); // Para desativar o loading
             }
           }
         },
         error: () => {
-          this.loading = false; // Desativa o loading
           this.error = 'Erro ao consultar.';
+          this.loadingService.hide(); // Para desativar o loading
         }
       });
   }

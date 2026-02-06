@@ -17,7 +17,7 @@ export class CreateQrcodeComponent {
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
-  onValorFixoInput(event: Event): void {
+  onValorInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     // Remove tudo que não for dígito
     let digits = input.value.replace(/\D/g, '');
@@ -27,19 +27,25 @@ export class CreateQrcodeComponent {
       digits = '0';
     }
 
+    // Aceita somente 9.999,99
+    if (digits.length > 6) {
+      // Pega os 6 últimos
+      digits = digits.slice(-6);
+    }
+
     // Converte para número e divide por 100 para obter centavos
     const numberValue = parseFloat(digits) / 100;
 
     // Formata para o padrão brasileiro com 2 casas decimais
     const formatted = numberValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    input.value = formatted.replace(".", "").replace(",",".");
+    input.value = formatted;
+    this.valorFixo = formatted; // Atualiza o valor do model
   }
 
   onCreateQrcode() {
     this.loadingService.show();// Ativa o loading
 
-    if (this.valorFixo.toString().replace(".", "").replace(",", "") == '') {
+    if (this.valorFixo.toString().replace(/\D/g, '') == '') {
       this.valorFixo = '0';
     }
     if (this.parcelas == '') {
@@ -57,7 +63,7 @@ export class CreateQrcodeComponent {
       merchant_id: merchantId,
       terminal_id: terminalId,
       payment: {
-        amount: this.valorFixo.toString().replace(".", "").replace(",", ""), //deve ser string no formato "100"
+        amount: this.valorFixo.toString().replace(/\D/g, ''), //deve ser string no formato "100"
         installments: this.parcelas.toString(), //deve ser string no formato "100"
       }
     };

@@ -19,7 +19,7 @@
             <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">R$</text>
           </svg>
         </span>
-        <input id="valorFixo" name="valorFixo" type="number" min="0" step="0.01" [(ngModel)]="valorFixo" required placeholder="Digite o valor" (input)="onValorFixoInput($event)" style="border: none; background: transparent; outline: none; width: 100%;" />
+        <input id="valorFixo" name="valorFixo" type="text" [(ngModel)]="valorFixo" required placeholder="Digite o valor" (input)="onValorInput($event)" style="border: none; background: transparent; outline: none; width: 100%;" />
       </div>
     </div>
 
@@ -32,11 +32,11 @@
             <text x="12" y="16" text-anchor="middle" font-size="12" fill="#bdbdbd" font-family="Arial">#</text>
           </svg>
         </span>
-        <input id="parcelas" name="parcelas" type="number" min="0" step="1" [(ngModel)]="parcelas" required placeholder="Digite o número de parcelas" style="border: none; background: transparent; outline: none; width: 100%;" />
+        <input id="parcelas" name="parcelas" type="number" min="0" max="12" step="1" [(ngModel)]="parcelas" required placeholder="Digite o número de parcelas" style="border: none; background: transparent; outline: none; width: 100%;" />
       </div>
     </div>
 
-    <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+    <button type="submit" class="submitButton">
       <span>Criar</span>
     </button>
 

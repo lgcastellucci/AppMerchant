@@ -9,7 +9,7 @@
     {{ error }}
   </div>
 
-  <form (ngSubmit)="onCreateSale()">
+  <form *ngIf="responseCode !== '00'" (ngSubmit)="onCreateSale()">
 
     <div style="margin-bottom: 1.25rem;">
       <label for="numeroCPF" style="display: block; margin-bottom: 0.5rem; color: #555;">Número do CPF</label>
@@ -103,16 +103,16 @@
       </div>
     </div>
 
-    <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(90deg, #ff5f5f 0%, #ff7eb3 50%, #6a5cff 100%); color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+    <button type="submit" class="submitButton">
       <span>Efetuar</span>
     </button>
 
-    <!-- Div para mostrar a string do QR Code -->
-    <div *ngIf="authorization" style="margin-top: 2rem; word-break: break-all; background: #f9f9f9; padding: 1rem; border-radius: 6px;">
-      <strong>String do QR Code:</strong>
-      <div>{{ authorization }}</div>
-    </div>
-
   </form>
+
+  <!-- Div para mostrar a resposta da venda -->
+  <div *ngIf="authorization" style="margin-top: 2rem; word-break: break-all; background: #f9f9f9; padding: 1rem; border-radius: 6px;">
+    <div style="text-align: center; margin-bottom: 1rem; "><strong>{{ responseMessage }}</strong></div>
+    <div><strong>Autorização:  </strong>{{ authorization }}</div>
+  </div>
 
 </div>
